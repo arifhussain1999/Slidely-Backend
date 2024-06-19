@@ -26,9 +26,12 @@ npm start
 The server will start running on http://localhost:3000 by default.
 
 # API Endpoints
-GET /ping: Check if the server is running.
-POST /submit: Submit a new form entry.
-GET /read: Retrieve a specific form submission.
-Configuration
-The server uses tsconfig.json for TypeScript configuration.
-Database is managed using db.json.
+1. GET /ping: Check if the server is running.
+
+2. POST /submit: Submit a new form entry.
+
+3. GET /read: Retrieve a specific form submission.
+
+# Configuration
+1. The server uses tsconfig.json for TypeScript configuration.
+2. Database is managed using db.json.
