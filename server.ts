@@ -3,9 +3,13 @@
 import express, { Request, Response } from 'express';
 import bodyParser from 'body-parser';
 import fs from 'fs';
+import cors from 'cors';
 
 const app = express();
 const PORT = 3000;
+
+// Middleware to enable CORS
+app.use(cors());
 
 // Middleware to parse JSON bodies
 app.use(bodyParser.json());
@@ -41,35 +45,18 @@ app.post('/submit', (req: Request, res: Response) => {
   res.json({ success: true });
 });
 
-// Define endpoint to read submissions by index
-app.get('/read', (req: Request, res: Response) => {
-  const { index } = req.query;
-
-  if (typeof index !== 'string') {
-    return res.status(400).json({ error: 'Invalid index parameter' });
-  }
-
-  const idx = parseInt(index);
-  if (isNaN(idx)) {
-    return res.status(400).json({ error: 'Invalid index parameter' });
-  }
-
+// Define endpoint to read all submissions
+app.get('/submissions', (req: Request, res: Response) => {
   let submissions: any[] = [];
   if (fs.existsSync('db.json')) {
     const data = fs.readFileSync('db.json', 'utf8');
     submissions = JSON.parse(data);
   }
 
-  if (idx < 0 || idx >= submissions.length) {
-    return res.status(404).json({ error: 'Submission not found' });
-  }
-
-  const submission = submissions[idx];
-  res.json(submission);
+  res.json(submissions);
 });
 
 // Start the server
 app.listen(PORT, () => {
   console.log(`Server is running on http://localhost:${PORT}`);
 });
-

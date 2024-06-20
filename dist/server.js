@@ -7,8 +7,11 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = __importDefault(require("express"));
 const body_parser_1 = __importDefault(require("body-parser"));
 const fs_1 = __importDefault(require("fs"));
+const cors_1 = __importDefault(require("cors"));
 const app = (0, express_1.default)();
 const PORT = 3000;
+// Middleware to enable CORS
+app.use((0, cors_1.default)());
 // Middleware to parse JSON bodies
 app.use(body_parser_1.default.json());
 // Define endpoint to check server status
@@ -35,26 +38,14 @@ app.post('/submit', (req, res) => {
     fs_1.default.writeFileSync('db.json', JSON.stringify(submissions, null, 2));
     res.json({ success: true });
 });
-// Define endpoint to read submissions by index
-app.get('/read', (req, res) => {
-    const { index } = req.query;
-    if (typeof index !== 'string') {
-        return res.status(400).json({ error: 'Invalid index parameter' });
-    }
-    const idx = parseInt(index);
-    if (isNaN(idx)) {
-        return res.status(400).json({ error: 'Invalid index parameter' });
-    }
+// Define endpoint to read all submissions
+app.get('/submissions', (req, res) => {
     let submissions = [];
     if (fs_1.default.existsSync('db.json')) {
         const data = fs_1.default.readFileSync('db.json', 'utf8');
         submissions = JSON.parse(data);
     }
-    if (idx < 0 || idx >= submissions.length) {
-        return res.status(404).json({ error: 'Submission not found' });
-    }
-    const submission = submissions[idx];
-    res.json(submission);
+    res.json(submissions);
 });
 // Start the server
 app.listen(PORT, () => {
