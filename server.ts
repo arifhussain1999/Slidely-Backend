@@ -4,7 +4,7 @@ import express, { Request, Response } from 'express';
 import bodyParser from 'body-parser';
 import fs from 'fs';
 import cors from 'cors';
-import { request } from 'http';
+
 
 const app = express();
 const PORT = 3000;
@@ -57,6 +57,34 @@ app.get('/submissions', (req: Request, res: Response) => {
   }
 
   res.json(submissions);
+});
+
+
+// Define endpoint to delete a submission by phone number
+app.delete('/submissions/:phoneNumber', (req: Request, res: Response) => {
+  const phoneNumber = req.params.phoneNumber;
+
+  let submissions: any[] = [];
+  if (fs.existsSync('db.json')) {
+    const data = fs.readFileSync('db.json', 'utf8');
+    submissions = JSON.parse(data);
+  }
+
+  const initialLength = submissions.length;
+
+  // Filter out the submission with the given phone number
+  submissions = submissions.filter(submission => submission.PhoneNumber !== phoneNumber);
+
+  const finalLength = submissions.length;
+
+  // Write updated submissions back to the file
+  fs.writeFileSync('db.json', JSON.stringify(submissions, null, 2));
+
+  if (initialLength === finalLength) {
+    res.status(404).json({ success: false, message: "Phone number not found" });
+  } else {
+    res.json({ success: true, message: "Submission deleted successfully" });
+  }
 });
 
 // Start the server
