@@ -20,7 +20,8 @@ app.get('/ping', (req, res) => {
 });
 // Define endpoint to save submissions
 app.post('/submit', (req, res) => {
-    const { name, email, phone, github_link, stopwatch_time } = req.body;
+    const { Name, Email, PhoneNumber, GitHubLink, ElapsedTime } = req.body;
+    //console.log(req.body);
     // Assuming db.json structure as an array of submissions
     let submissions = [];
     if (fs_1.default.existsSync('db.json')) {
@@ -28,11 +29,11 @@ app.post('/submit', (req, res) => {
         submissions = JSON.parse(data);
     }
     const newSubmission = {
-        name,
-        email,
-        phone,
-        github_link,
-        stopwatch_time,
+        Name,
+        Email,
+        PhoneNumber,
+        GitHubLink,
+        ElapsedTime,
     };
     submissions.push(newSubmission);
     fs_1.default.writeFileSync('db.json', JSON.stringify(submissions, null, 2));

@@ -1,16 +1,9 @@
 [
   {
-    "name": "John Doe",
-    "email": "john@example.com",
-    "phone": "1234567890",
-    "github_link": "https://github.com/johndoe",
-    "stopwatch_time": "00:01:23"
-  },
-  {
-    "name": "Doe",
-    "email": "doe@example.com",
-    "phone": "567890",
-    "github_link": "https://github.com/doe",
-    "stopwatch_time": "00:00:23"
+    "Name": "Arif",
+    "Email": "arif@gmail",
+    "PhoneNumber": "626984",
+    "GitHubLink": "arif@github.com",
+    "ElapsedTime": "00:00:02"
   }
 ]

@@ -4,6 +4,7 @@ import express, { Request, Response } from 'express';
 import bodyParser from 'body-parser';
 import fs from 'fs';
 import cors from 'cors';
+import { request } from 'http';
 
 const app = express();
 const PORT = 3000;
@@ -21,7 +22,9 @@ app.get('/ping', (req: Request, res: Response) => {
 
 // Define endpoint to save submissions
 app.post('/submit', (req: Request, res: Response) => {
-  const { name, email, phone, github_link, stopwatch_time } = req.body;
+  const { Name, Email, PhoneNumber, GitHubLink, ElapsedTime } = req.body;
+
+  //console.log(req.body);
 
   // Assuming db.json structure as an array of submissions
   let submissions: any[] = [];
@@ -31,11 +34,11 @@ app.post('/submit', (req: Request, res: Response) => {
   }
 
   const newSubmission = {
-    name,
-    email,
-    phone,
-    github_link,
-    stopwatch_time,
+    Name,
+    Email,
+    PhoneNumber,
+    GitHubLink,
+    ElapsedTime,
   };
 
   submissions.push(newSubmission);
